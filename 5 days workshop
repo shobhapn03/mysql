@@ -1,0 +1,156 @@
+---  - Create the database query 
+
+CREATE DATABASE SwapnodyaDB;
+
+
+USE SwapnodyaDB;
+
+
+-- Create Branch table query 
+
+
+CREATE TABLE Branch (
+BID VARCHAR(20) PRIMARY KEY,
+Branch_name VARCHAR(255) NOT NULL
+);
+
+
+-- Create Companies table query 
+
+
+CREATE TABLE Companies (
+CID VARCHAR(20) PRIMARY KEY,
+company_name VARCHAR(255) NOT NULL,
+students_placed INT,
+package DECIMAL(10, 2)
+);
+
+
+-- Create Subjects table
+
+CREATE TABLE Subjects (
+SID VARCHAR(20) PRIMARY KEY,
+subject_name VARCHAR(255) NOT NULL,
+semester INT,
+hours INT
+);
+
+
+-- Create Lectures table
+
+CREATE TABLE Lectures (
+LID VARCHAR(20) PRIMARY KEY,
+first_name VARCHAR(255) NOT NULL,
+designation VARCHAR(255) NOT NULL,
+college VARCHAR(255) NOT NULL,
+branch VARCHAR(20),
+SID VARCHAR(20),
+FOREIGN KEY (SID) REFERENCES Subjects(SID)
+);
+
+
+-- Create Students table
+
+CREATE TABLE Students (
+usn VARCHAR(10) PRIMARY KEY,
+first_name VARCHAR(255) NOT NULL,
+branch VARCHAR(20),
+college VARCHAR(255) NOT NULL,
+semester INT,
+CGPA DECIMAL(3, 2),
+DOJ DATE,
+DOG DATE,
+gender VARCHAR(10),
+section VARCHAR(10),
+CID VARCHAR(20),
+job_role VARCHAR(255),
+package DECIMAL(10, 2),
+FOREIGN KEY (CID) REFERENCES Companies(CID)
+);
+
+
+-- Create Marks table
+
+CREATE TABLE Marks (
+usn VARCHAR(10),
+sid VARCHAR(20),
+test1 INT,
+test2 INT,
+test3 INT,
+subject_cgpa DECIMAL(3, 2),
+FOREIGN KEY (usn) REFERENCES Students(usn),
+FOREIGN KEY (sid) REFERENCES Subjects(SID)
+);
+
+--------------------------------------------
+
+-- Insert data into the Branch table
+
+INSERT INTO Branch (BID, Branch_name) VALUES
+('CSE1', 'Computer Science and Engineering'),
+('CSE3', 'Computer Science and Engineering'),
+('CV1', 'Civil Engineering'),
+('ECE1', 'Electronics Communication Engineering'),
+('ISE1', 'Information Science and Engineering');
+
+
+-- Insert data into the Companies table
+
+INSERT INTO Companies (CID, company_name, students_placed, package) VALUES
+('CP4', 'Canopus Bengaluru', 280000, 360000),
+('DEL2', 'Deloitte Bengaluru', 2, 690000),
+('MS5', 'Meesho Bengaluru', 1, 1200000),
+('PW3', 'Pacewisdom Bengaluru', 2, 400000),
+('SR1', 'Surge Limited', 3, 360000);
+
+
+---  - Insert data into the Subjects table
+
+INSERT INTO Subjects (SID, subject_name, semester, hours) VALUES
+('24SQL', 'Structured Query Language', 5, 40),
+('24PY', 'Python', 6, 50),
+('24DSA', 'Database Structured Algorithm', 3, 40),
+('24HTML', 'Hyper Text Markup Language', 6, 40),
+('24JS', 'Javascript', 5, 50);
+
+
+---  - Insert data into the Lectures table
+
+INSERT INTO Lectures (LID, first_name, designation, college, branch, SID) VALUES
+('112P', 'Pooja', 'HOD', 'KSIT10', 'CSE1', '24SQL'),
+('237A', 'Arun', 'Assistant Professor', 'SIT10', 'ISE1', '24PY'),
+('576S', 'Seema', 'Professor', 'SIT20', 'CV1', '24HTML'),
+('622T', 'Tejaswini', 'Associate Professor', 'MRIT10', 'CSE3', '24JS'),
+('897K', 'Kavya', 'Assistant Professor', 'KSIT10', 'ECE1', '24DSA');
+
+
+
+
+---  - Insert data into the Students table
+
+INSERT INTO Students (usn, first_name, branch, college, semester, CGPA, DOJ, DOG, gender, section, CID, job_role, package) VALUES
+('1SW24CS001', 'Sita', 'CSE1', 'Dr.AIT10', 5, 7, '2024-12-08', '2028-11-06', 'F', 'A', 'SR1', 'Junior Developer', 360000),
+('1SW24CS002', 'Krishna', 'CSE1', 'SIT10', 5, 7.8, '2024-12-08', '2028-11-06', 'M', 'B', 'DEL2', 'Data Analyst', 690000),
+('1SW24CS003', 'Ram', 'CSE3', 'SIT20', 5, 6.9, '2024-01-08', '2028-01-06', 'M', 'B', 'PW3', 'Python Developer', 400000),
+('1SW24CV001', 'Chetan', 'CV1', 'Dr.AIT10', 8, 8.1, '2024-10-08', '2028-10-06', 'M', 'A', 'MS5', 'Data Analyst', 1200000),
+('1SW24EC001', 'Raj', 'ECE1', 'Dr.AIT10', 6, 8.9, '2024-08-08', '2028-08-06', 'M', 'A', 'DEL2', 'Data Analyst', 690000),
+('1SW24EC002', 'Mourya', 'ECE1', 'MRIT10', 6, 7, '2024-10-08', '2028-10-06', 'M', 'B', 'PW3', 'Python Developer', 400000),
+('1SW24EC003', 'Surya', 'ECE3', 'SIT10', 5, 7.9, '2024-12-08', '2028-12-06', 'M', 'B', 'CP4', 'Software Engineer', 280000),
+('1SW241S001', 'Abhi', 'ISE1', 'MRIT10', 6, 9, '2024-05-08', '2028-05-06', 'M', 'A', 'CP4', 'Software Engineer', 280000),
+('1SW241S002', 'Basava', 'ISE1', 'KSIT10', 5, 9.1, '2024-10-08', '2028-10-12', 'M', 'B', 'MS5', 'Data Analyst', 1200000);
+
+
+---  - Insert data into the Marks table
+
+INSERT INTO Marks (usn, sid, test1, test2, test3, subject_cgpa) VALUES
+('1SW24CS001', '24SQL', 30, 28, 25, 9.1),
+('1SW24CS002', '24PY', 29, 26, 25, 9),
+('1SW24CS003', '24DSA', 29, 24, 26, 8.9),
+('1SW24CV001', '24HTML', 22, 19, 18, 8.1),
+('1SW241S002', '24JS', 22, 30, 28, 7.9),
+('1SW24CS001', '24SQL', 28.5, 21, 18, 7.8),
+('1SW24EC001', '24PY', 19, 14, 13, 7),
+('1SW24EC002', '24DSA', 19, 24, 25, 7),
+('1SW24EC003', '24HTML', 24, 26, 28, 6.9),
+('1SW24CV001', '24JS', 21, 21, 21, 5.9);
+
